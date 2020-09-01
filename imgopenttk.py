@@ -1,4 +1,4 @@
-# Last updated 5.17.20
+# Last updated 8.31.20
 
 import PIL.Image
 import PIL.ImageTk  # will need to install image or pillow library
@@ -11,7 +11,7 @@ from tkinter import ttk
 from tkinter import filedialog, messagebox, Message, Toplevel, BOTTOM
 
 
-class imageOpener:
+class ImageOpener:
     def __init__(self, master, *args, **kwds):
         # set self.master to root
         self.master = master
@@ -31,8 +31,8 @@ class imageOpener:
         self.buttonWidth = 10
 
         # find a folder of images and generate a list of the images in them
-        self.setDirname()
-        self.generateImgList()
+        self.set_dir_name()
+        self.generate_img_list()
 
         # image goes on label
         self.image_label = Label(compound=TOP, bg="#eee", borderwidth=2)
@@ -52,7 +52,7 @@ class imageOpener:
         self.frame.pack()
 
         # generate the nav bar
-        self.createNavBar()
+        self.create_nav_bar()
 
         self.move(0)
 
@@ -105,7 +105,7 @@ class imageOpener:
         self.image_label.photo = photo
 
         # clear (previous) image info
-        self.toggleInfo(False)
+        self.toggle_info(False)
 
         # center the image
         self.image_label.pack()
@@ -127,33 +127,33 @@ class imageOpener:
             print(imgWidth, imgHeight, relWidth, relHeight, newWidth, newHeight)
         return newWidth, newHeight
 
-    def createNavBar(self):
+    def create_nav_bar(self):
         # super outside lambda: super().reload(), inside lambda: lambda:super(navigationBar, self).reload())
         buttons = [  # txt, h, w, callback
             ("Reload", self.buttonWidth, self.reload),
-            ("Info", self.buttonWidth, lambda: self.toggleInfo(True)),
-            ("Open Containing Folder", self.buttonWidth * 1.5, self.openCurrentFolder),
-            ("Keep", self.buttonWidth, self.keepImage),
-            ("Delete", self.buttonWidth, self.deleteImage),
+            ("Info", self.buttonWidth, lambda: self.toggle_info(True)),
+            ("Open Containing Folder", self.buttonWidth * 1.5, self.open_current_folder),
+            ("Keep", self.buttonWidth, self.keep_file),
+            ("Delete", self.buttonWidth, self.delete_image),
             ("Previous", self.buttonWidth, lambda: self.move(-1)),
             ("Next", self.buttonWidth, lambda: self.move(+1)),
             ("Quit", self.buttonWidth, self.master.quit),
         ]
         # go through button list and make each button in order
         for button in buttons:
-            self.createButton(*button)
+            self.create_button(*button)
 
-    def createButton(self, txt, w, callback):
+    def create_button(self, txt, w, callback):
         btn = ttk.Button(self.frame, text=f"\n{txt}\n", width=w, command=callback)
         btn.pack(side=LEFT)
 
     # returns the filename for the current image being shown
-    def getCurrentImageName(self):
+    def get_curr_img_name(self):
         return str(self.sorted_imagelist[self.current])
 
     # select the folder to browse
     # this code gives an error, text input context does not correspond
-    def setDirname(self):
+    def set_dir_name(self):
         self.dir_name = filedialog.askdirectory()
         # parent=self.master, initialdir="~", title='Please select a directory')
         if len(self.dir_name) > 0:
@@ -161,7 +161,7 @@ class imageOpener:
         else:
             self.master.quit()
 
-    def generateImgList(self):
+    def generate_img_list(self):
         # walk generates 3 iterables: [0] is name of folder, [1] is names of sub folder, [2] is name of files
         self.image_list = [
             os.path.join(self.dir_name, img).replace("\\", "/")
@@ -181,8 +181,8 @@ class imageOpener:
         self.master.withdraw()
 
         # choose a new folder and generate the appropriate image list
-        self.setDirname()
-        self.generateImgList()
+        self.set_dir_name()
+        self.generate_img_list()
 
         # unhide the imageOpener
         self.master.deiconify()
@@ -191,7 +191,7 @@ class imageOpener:
         self.move(0)
 
     # moves the current image to a new folder, makes a folder if it doesn't exist
-    def moveFile(self, file, new_folder):
+    def move_file(self, file, new_folder):
         from shutil import move
 
         dir_path = self.dir_name + "/" + new_folder
@@ -200,11 +200,11 @@ class imageOpener:
         if os.path.exists(dir_path):
             move(file, dir_path)
 
-    def deleteImage(self):
+    def delete_image(self):
         # soft delete
-        file = self.getCurrentImageName()
+        file = self.get_curr_img_name()
         if not self.permanent_delete:
-            self.moveFile(file, "delete")
+            self.move_file(file, "delete")
             self.sorted_imagelist.remove(file)
 
             if 0 <= self.current == len(self.sorted_imagelist):  # if end of list
@@ -216,13 +216,13 @@ class imageOpener:
         else:
             os.remove(file)
 
-    def keepImage(self):
-        file = self.getCurrentImageName()
-        self.moveFile(file, "keep")
+    def keep_file(self):
+        file = self.get_curr_img_name()
+        self.move_file(file, "keep")
         self.sorted_imagelist.remove(file)
         self.move(0)  # update the shown image
 
-    def openCurrentFolder(self):
+    def open_current_folder(self):
         if sys.platform == "darwin":
             os.system("open " + self.dir_name)
         else:
@@ -231,19 +231,19 @@ class imageOpener:
 
     # flips the show_info flag if user desires, toggles the info label on/off
 
-    def toggleInfo(self, flip):
+    def toggle_info(self, flip):
         # flip the flag if you want it to be
         if flip:
             self.show_info = not self.show_info
 
-        # fill = self.getCurrentImageName() if self.show_info else ""s
+        # fill = self.get_curr_img_name() if self.show_info else ""s
         if self.show_info:
-            self.ll.configure(text=self.getCurrentImageName())
+            self.ll.configure(text=self.get_curr_img_name())
         else:
             self.ll.configure(text="")
 
 
 if __name__ == "__main__":
     root = Tk()
-    imageOpener(root)
+    ImageOpener(root)
     root.mainloop()
