@@ -1,4 +1,3 @@
-Python desktop GUI app that helps sort images.
 # imgopen
 
 A desktop GUI app that opens folders of images and allows you to sort them into "keep" and "delete."
