@@ -12,7 +12,11 @@ from tkinter import filedialog, messagebox, Message, Toplevel, BOTTOM
 
 
 class ImageOpener:
-    def __init__(self, master, *args, **kwds):
+    """
+    ImageOpener class.
+    Container for all the GUI parts.
+    """
+    def __init__(self, master, *args, **kwargs):
         # set self.master to root
         self.master = master
         master.title("Basic Image Opener")
@@ -21,11 +25,11 @@ class ImageOpener:
 
         # settings
         master.configure(background="#73afa7")
-        self.framewidth, self.frameheight = 600, 600
-        self.windowwidth, self.windowheight = 1000, 800
+        self.framewidth, self.frameheight = (600, 600)
+        self.windowwidth, self.windowheight = (1000, 800)
         root.geometry("%dx%d" % (self.windowwidth, self.windowheight))
         self.ext = ("jpg", "png")
-        self.debug = False  # kwds.get('debug', False)
+        self.debug = False  # kwargs.get('debug', False)
         self.permanent_delete = False
         self.show_info = False
         self.buttonWidth = 10
@@ -79,11 +83,12 @@ class ImageOpener:
             if sys.platform == "darwin":
                 messagebox.showerror(title="End", message="No more images.")
                 # messagebox.showerror(title="Invalid Steam folder!",
-                                #  message="{0} is not a valid Steam folder.".format(self.steamfolder))
+                #                  message="{0} is not a valid Steam folder.".format("nuddin"))
                 # os.system("osascript -e 'Tell application \"System Events\" to display dialog \""+body+"\"'")
             else:
                 messagebox.showerror(title="End", message="No more images.")
                 # messagebox.showinfo("End", "No more images.")
+            self.master.update()
             return
         self.current += delta
 
