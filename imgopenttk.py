@@ -20,7 +20,6 @@ class ImageOpener:
         # set self.master to root
         self.master = master
         master.title("Basic Image Opener")
-        # btn = ttk.Button(text="\nfug\n", width=8)
         # btn.pack()
 
         # settings
