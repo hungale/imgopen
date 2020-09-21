@@ -4,7 +4,7 @@ import PIL.Image
 import PIL.ImageTk  # will need to install image or pillow library
 import os
 import sys
-from tkinter import Label, TOP, LEFT, Tk
+from tkinter import Label, TOP, LEFT
 from tkinter import ttk
 from shutil import move
 
@@ -256,10 +256,3 @@ class ImageOpener:
             self.ll.configure(text=self.get_curr_img_name())
         else:
             self.ll.configure(text="")
-
-
-# main loop, move to another file 
-if __name__ == "__main__":
-    root = Tk()
-    ImageOpener(root)
-    root.mainloop()

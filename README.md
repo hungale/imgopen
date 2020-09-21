@@ -9,7 +9,7 @@ Motivated by my the massive piles of images that I take on my phone and camera t
 3. Make a venv and start.
 4. Install the requirements (`pip install -r requirements.txt`). Note that this  
    project runs on Python3.
-5. Start the program with `python imgopenttk.py`.
+5. Start the program with `python main.py`.
 6. Select a folder of images when prompted.
 7. You should be able to see the images in the selected folder now.  
    - Move them to a folder called `keep` by clicking "Keep,"
